@@ -16,6 +16,7 @@ import { Tema } from './tema/entities/tema.entity.ts';
       database: 'db_blogpessoal',
       entities: [Postagem, Tema],
       synchronize: true,
+      logging: true,
     }),
     PostagemModule,
     TemaModule,
