@@ -12,10 +12,10 @@ export class UsuarioService {
     private bcrypt: Bcrypt,
   ) {}
 
-  async findByUsuario(usuarioObjeto: string): Promise<Usuario | undefined> {
+  async findByUsuario(objetoUsuario: string): Promise<Usuario | undefined> {
     return await this.usuarioRepository.findOne({
       where: {
-        usuario: usuarioObjeto,
+        usuario: objetoUsuario,
       },
     });
   }
@@ -44,14 +44,18 @@ export class UsuarioService {
     return usuario;
   }
 
-  async create(usuarioObjeto: Usuario): Promise<Usuario> {
-    const buscaUsuario = await this.findByUsuario(usuarioObjeto.usuario);
+  async create(objetoUsuario: Usuario): Promise<Usuario> {
+    const buscaUsuario = await this.findByUsuario(objetoUsuario.usuario);
 
     if (!buscaUsuario) {
-      usuarioObjeto.senha = await this.bcrypt.criptografarSenha(
-        usuarioObjeto.senha,
+      if (!objetoUsuario.foto)
+        objetoUsuario.foto = 'https://i.imgur.com/Sk5SjWE.jpg';
+
+      objetoUsuario.senha = await this.bcrypt.criptografarSenha(
+        objetoUsuario.senha,
       );
-      return await this.usuarioRepository.save(usuarioObjeto);
+
+      return await this.usuarioRepository.save(objetoUsuario);
     }
 
     throw new HttpException(
@@ -60,22 +64,25 @@ export class UsuarioService {
     );
   }
 
-  async update(usuarioObjeto: Usuario): Promise<Usuario> {
-    const updateUsuario: Usuario = await this.findById(usuarioObjeto.id);
-    const buscaUsuario = await this.findByUsuario(usuarioObjeto.usuario);
+  async update(objetoUsuario: Usuario): Promise<Usuario> {
+    const updateUsuario: Usuario = await this.findById(objetoUsuario.id);
+    const buscaUsuario = await this.findByUsuario(objetoUsuario.usuario);
 
     if (!updateUsuario)
       throw new HttpException('Usuário não encontrado!', HttpStatus.NOT_FOUND);
 
-    if (buscaUsuario && buscaUsuario.id !== usuarioObjeto.id)
+    if (buscaUsuario && buscaUsuario.id !== objetoUsuario.id)
       throw new HttpException(
         'O Usuário (e-mail) já existe!',
         HttpStatus.BAD_REQUEST,
       );
 
-    usuarioObjeto.senha = await this.bcrypt.criptografarSenha(
-      usuarioObjeto.senha,
+    if (!objetoUsuario.foto)
+      objetoUsuario.foto = 'https://i.imgur.com/Sk5SjWE.jpg';
+
+    objetoUsuario.senha = await this.bcrypt.criptografarSenha(
+      objetoUsuario.senha,
     );
-    return await this.usuarioRepository.save(usuarioObjeto);
+    return await this.usuarioRepository.save(objetoUsuario);
   }
 }
