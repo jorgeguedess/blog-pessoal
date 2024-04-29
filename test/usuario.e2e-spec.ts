@@ -93,4 +93,13 @@ describe('Testes dos Módulos Usuário e Auth (e2e)', () => {
         expect('Root Atualizado').toEqual(resposta.body.nome);
       });
   });
+
+  it('06 - Deve Mostrar o Usuário através do ID', async () => {
+    const id = 1;
+    return request(app.getHttpServer())
+      .get(`/usuarios/${id}`)
+      .set('Authorization', `${token}`)
+      .send({})
+      .expect(200);
+  });
 });
