@@ -12,8 +12,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { TemaService } from '../services/tema.service';
-import { Tema } from '../entities/tema.entity.ts';
-import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { Tema } from '../entities/tema.entity';
 
 @UseGuards(JwtAuthGuard)
 @Controller('/temas')
