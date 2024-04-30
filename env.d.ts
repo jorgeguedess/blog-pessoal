@@ -5,5 +5,6 @@ declare namespace NodeJS {
     DB_PORT: number;
     DB_USERNAME: string;
     DB_PASSWORD: string;
+    DATABASE_URL: string;
   }
 }
