@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { JwtService } from '@nestjs/jwt';
 import { UsuarioService } from './../../usuario/services/usuario.service';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
@@ -42,6 +43,7 @@ export class AuthService {
       id: buscaUsuario.id,
       nome: buscaUsuario.nome,
       usuario: usuarioLogin.usuario,
+      administrador: buscaUsuario.administrador,
       senha: '',
       foto: buscaUsuario.foto,
       token: `Bearer ${this.jwtService.sign(payload)}`,

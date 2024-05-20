@@ -30,6 +30,10 @@ export class Usuario {
   @ApiProperty()
   public foto: string;
 
+  @ApiProperty({ required: false })
+  @Column({ type: 'boolean', nullable: true, default: false })
+  public administrador: boolean;
+
   @ApiProperty()
   @OneToMany(() => Postagem, (postagem) => postagem.usuario)
   postagem: Postagem[];
